@@ -1,0 +1,375 @@
+<<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Rebeca Store — Top Up Free Fire & Mobile Legends</title>
+  <meta name="description" content="Website top-up Free Fire dan Mobile Legends. Pembayaran DANA, GoPay, OVO, QRIS, dan BRI." />
+  <style>
+    :root{
+      --pink-900:#4a0d2f;/* header text shadow */
+      --pink-800:#6f1144;/* header bg deep */
+      --pink-700:#8a1556;/* btn hover */
+      --pink-600:#b61b72;/* buttons */
+      --pink-500:#e91e87;/* accents */
+      --pink-400:#ff4da6;/* focus ring */
+      --pink-300:#ff7bbf;/* soft */
+      --pink-200:#ffc4e0;/* badges */
+      --bg:#0f0a10;
+      --card:#1a111a;
+      --muted:#cab0c1;
+      --text:#fff7fb;
+      --success:#31d0aa;
+      --warning:#ffd166;
+      --danger:#ff6b6b;
+      --shadow:0 10px 25px rgba(233,30,135,.25);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:radial-gradient(1200px 600px at 80% -10%,rgba(233,30,135,.18),transparent),radial-gradient(800px 500px at -10% 110%,rgba(255,77,166,.18),transparent),var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
+    a{color:inherit;text-decoration:none}
+    header{position:sticky;top:0;z-index:10;background:linear-gradient(180deg,rgba(255,77,166,.15),rgba(26,17,26,.95));backdrop-filter:blur(8px);border-bottom:1px solid rgba(255,77,166,.25)}
+    .wrap{max-width:1000px;margin:0 auto;padding:20px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .logo{width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,var(--pink-600),var(--pink-400));box-shadow:var(--shadow)}
+    h1{margin:0;font-size:20px;line-height:1.1;letter-spacing:.5px;text-shadow:0 1px 0 var(--pink-900)}
+    .subtitle{font-size:12px;color:var(--muted)}.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;padding:22px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+
+.card{background:linear-gradient(180deg,rgba(255,77,166,.06),rgba(26,17,26,.9));border:1px solid rgba(255,77,166,.18);border-radius:var(--radius);box-shadow:var(--shadow);padding:20px}
+.card h2{margin:0 0 14px;font-size:18px}
+
+label{display:block;font-size:13px;margin:14px 0 6px;color:var(--muted)}
+input,select,button{width:100%;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,77,166,.28);background:#140c14;color:var(--text);font-size:14px;outline:none;transition:.2s}
+input:focus,select:focus{box-shadow:0 0 0 3px rgba(255,77,166,.25);border-color:var(--pink-400)}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+.pay-list{display:grid;grid-template-columns:repeat(5,minmax(90px,1fr));gap:10px;margin-top:10px}
+@media (max-width:720px){.pay-list{grid-template-columns:repeat(2,minmax(120px,1fr))}}
+.pay{display:flex;align-items:center;gap:10px;padding:10px 12px;border:1px solid rgba(255,77,166,.28);background:#130a13;border-radius:12px;cursor:pointer;user-select:none}
+.pay input{width:auto}
+.badge{display:inline-block;background:rgba(255,77,166,.18);border:1px solid rgba(255,77,166,.35);color:#ffd8eb;padding:4px 10px;border-radius:999px;font-size:12px}
+.muted{color:var(--muted);font-size:13px}
+.price{font-weight:700;font-size:18px}
+
+.btn{background:linear-gradient(135deg,var(--pink-600),var(--pink-400));border:none;color:white;font-weight:700;cursor:pointer}
+.btn:hover{filter:brightness(1.05)}
+.btn:active{transform:translateY(1px)}
+.ghost{background:transparent;border:1px solid rgba(255,77,166,.35)}
+
+.summary{display:grid;gap:10px}
+.row2{display:flex;justify-content:space-between;align-items:center;gap:10px}
+
+.notice{font-size:12px;color:#ffd8eb;background:rgba(255,77,166,.1);border:1px dashed rgba(255,77,166,.35);padding:10px;border-radius:12px}
+
+footer{padding:30px;text-align:center;color:var(--muted);font-size:12px}
+.qr{display:none;place-items:center;background:#120812;border:1px dashed rgba(255,77,166,.35);border-radius:14px;padding:16px}
+.qr canvas{background:white;border-radius:8px;padding:8px}
+
+/* mini toast */
+.toast{position:fixed;right:18px;bottom:18px;background:#1b111b;border:1px solid rgba(255,77,166,.35);padding:12px 14px;border-radius:12px;box-shadow:var(--shadow);opacity:0;transform:translateY(10px);transition:.25s}
+.toast.show{opacity:1;transform:translateY(0)}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <h1>Rebeca Store</h1>
+          <div class="subtitle">Top Up Free Fire & Mobile Legends — DANA • GoPay • OVO • QRIS • BRI</div>
+        </div>
+      </div>
+    </div>
+  </header>  <main class="wrap">
+    <div class="grid">
+      <!-- FORM PESANAN -->
+      <section class="card">
+        <h2>Isi Data Top Up</h2>
+        <form id="orderForm">
+          <label for="game">Pilih Game</label>
+          <select id="game" required>
+            <option value="">— Pilih —</option>
+            <option value="ff">Free Fire</option>
+            <option value="ml">Mobile Legends: Bang Bang</option>
+          </select><div id="ffFields" style="display:none">
+        <label for="ffid">ID Player Free Fire</label>
+        <input id="ffid" placeholder="Contoh: 123456789" />
+      </div>
+
+      <div id="mlFields" style="display:none">
+        <label>Data Akun Mobile Legends</label>
+        <div class="row">
+          <input id="mlid" placeholder="User ID (contoh: 123456789)" />
+          <input id="mlzone" placeholder="Zone ID (contoh: 1234)" />
+        </div>
+      </div>
+
+      <label for="nominal">Pilih Nominal</label>
+      <select id="nominal" required>
+        <option value="">— Pilih nominal —</option>
+      </select>
+
+      <label>Metode Pembayaran</label>
+      <div class="pay-list" id="payList">
+        <label class="pay"><input type="radio" name="pay" value="DANA" required/> DANA</label>
+        <label class="pay"><input type="radio" name="pay" value="GoPay"/> GoPay</label>
+        <label class="pay"><input type="radio" name="pay" value="OVO"/> OVO</label>
+        <label class="pay"><input type="radio" name="pay" value="QRIS"/> QRIS</label>
+        <label class="pay"><input type="radio" name="pay" value="BRI"/> BRI Transfer</label>
+      </div>
+
+      <label for="phone">No. WhatsApp (untuk konfirmasi)</label>
+      <input id="phone" type="tel" placeholder="08xxxxxxxxxx" />
+
+      <div class="row">
+        <button type="button" class="btn ghost" id="resetBtn">Reset</button>
+        <button type="submit" class="btn">Buat Pesanan</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- RINGKASAN PESANAN -->
+  <aside class="card">
+    <h2>Ringkasan</h2>
+    <div class="summary" id="summary">
+      <div class="row2"><span class="muted">Game</span><strong id="sGame">-</strong></div>
+      <div class="row2"><span class="muted">ID Akun</span><strong id="sID">-</strong></div>
+      <div class="row2"><span class="muted">Nominal</span><strong id="sNominal">-</strong></div>
+      <div class="row2"><span class="muted">Pembayaran</span><strong id="sPay">-</strong></div>
+      <div class="row2"><span class="muted">Biaya Admin</span><strong id="sFee">Rp0</strong></div>
+      <div class="row2"><span class="muted">Total</span><div class="price" id="sTotal">Rp0</div></div>
+      <span class="badge" id="sOrder">Order ID: -</span>
+      <p class="notice">Pastikan ID benar. Proses 1–10 menit setelah pembayaran terverifikasi.</p>
+      <div class="row">
+        <a id="waBtn" class="btn" href="#" target="_blank" rel="noopener">Kirim ke WhatsApp</a>
+        <button id="copyBtn" class="btn ghost" type="button">Salin Rincian</button>
+      </div>
+    </div>
+
+    <div id="qrisBox" class="qr" aria-live="polite">
+      <div>
+        <p class="muted" style="text-align:center">QRIS untuk pesanan ini</p>
+        <canvas id="qrisCanvas" width="220" height="220" aria-label="QRIS Code"></canvas>
+      </div>
+    </div>
+  </aside>
+</div>
+
+  </main>  <footer>
+    © <span id="year"></span> Rebeca Store — Semua hak dilindungi • CS: wa.me/6281234567890
+  </footer>  <div id="toast" class="toast">Disalin ke clipboard!</div>  <script>
+    // ------- Data Harga -------
+    const PRICES = {
+      ff:{
+        "5 Diamonds":1500,
+        "50 Diamonds":10000,
+        "70 Diamonds":14000,
+        "140 Diamonds":27000,
+        "355 Diamonds":68000,
+        "720 Diamonds":135000,
+        "1450 Diamonds":265000
+      },
+      ml:{
+        "14 Diamonds":4500,
+        "86 Diamonds":21000,
+        "172 Diamonds":41000,
+        "257 Diamonds":60000,
+        "344 Diamonds":79000,
+        "514 Diamonds":116000,
+        "706 Diamonds":158000
+      }
+    };
+
+    const ADMIN_FEE = {
+      DANA: 1000,
+      GoPay: 1500,
+      OVO: 1500,
+      QRIS: 1000,
+      BRI: 1000
+    };
+
+    const el = id => document.getElementById(id);
+    const gameSel = el('game');
+    const nominalSel = el('nominal');
+    const ffFields = el('ffFields');
+    const mlFields = el('mlFields');
+
+    const sGame = el('sGame');
+    const sID = el('sID');
+    const sNominal = el('sNominal');
+    const sPay = el('sPay');
+    const sFee = el('sFee');
+    const sTotal = el('sTotal');
+    const sOrder = el('sOrder');
+
+    const qrisBox = el('qrisBox');
+    const qrisCanvas = el('qrisCanvas');
+
+    const waBtn = el('waBtn');
+    const copyBtn = el('copyBtn');
+    const resetBtn = el('resetBtn');
+
+    const fmt = n => 'Rp' + n.toLocaleString('id-ID');
+    const year = new Date().getFullYear(); el('year').textContent = year;
+
+    function fillNominals(game){
+      nominalSel.innerHTML = '<option value="">— Pilih nominal —</option>';
+      Object.keys(PRICES[game]).forEach(k=>{
+        const opt = document.createElement('option');
+        opt.value = k; opt.textContent = `${k} — ${fmt(PRICES[game][k])}`;
+        nominalSel.appendChild(opt);
+      });
+    }
+
+    function updateSummary(){
+      const game = gameSel.value;
+      const nominal = nominalSel.value;
+      const pay = (document.querySelector('input[name="pay"]:checked')||{}).value || '';
+
+      sGame.textContent = game==='ff' ? 'Free Fire' : game==='ml' ? 'Mobile Legends' : '-';
+
+      let idText = '-';
+      if(game==='ff'){ idText = el('ffid').value||'-'; }
+      if(game==='ml'){ idText = [el('mlid').value||'', el('mlzone').value||''].filter(Boolean).join(' (Zone: ') + (el('mlzone').value?')':''); if(!el('mlid').value) idText='-'; }
+      sID.textContent = idText;
+
+      sNominal.textContent = nominal || '-';
+      sPay.textContent = pay || '-';
+
+      let base = 0; if(game && nominal){ base = PRICES[game][nominal]||0; }
+      let fee = pay ? (ADMIN_FEE[pay]||0) : 0;
+      sFee.textContent = fmt(fee);
+      sTotal.textContent = fmt(base+fee);
+
+      if(pay==='QRIS' && base){
+        qrisBox.style.display='grid';
+        drawQR(qrisCanvas, `REBECastore|${Date.now()}|${base+fee}`);
+      } else { qrisBox.style.display='none'; }
+    }
+
+    gameSel.addEventListener('change', e=>{
+      const v = e.target.value;
+      ffFields.style.display = v==='ff' ? 'block':'none';
+      mlFields.style.display = v==='ml' ? 'block':'none';
+      if(v){ fillNominals(v); }
+      updateSummary();
+    });
+
+    ['ffid','mlid','mlzone','nominal','phone'].forEach(id=>{
+      const node = el(id) || nominalSel; (node).addEventListener('input', updateSummary);
+    });
+    nominalSel.addEventListener('change', updateSummary);
+    document.querySelectorAll('input[name="pay"]').forEach(r=>r.addEventListener('change', updateSummary));
+
+    // Generate Order ID
+    function makeOrderId(){
+      const d = new Date();
+      const part = d.toISOString().replace(/[-:TZ.]/g,'').slice(2,12);
+      return `RB-${part}-${Math.floor(1000+Math.random()*9000)}`;
+    }
+
+    function refreshOrderId(){ sOrder.textContent = 'Order ID: ' + makeOrderId(); }
+    refreshOrderId();
+
+    // WhatsApp Link
+    function buildWAText(){
+      const lines = [
+        '*Rebeca Store — Pesanan Top Up*',
+        sOrder.textContent,
+        `Game: ${sGame.textContent}`,
+        `ID Akun: ${sID.textContent}`,
+        `Nominal: ${sNominal.textContent}`,
+        `Metode: ${sPay.textContent}`,
+        `Total: ${sTotal.textContent}`,
+        '',
+        'Mohon konfirmasi pembayaran ya kak. Terima kasih ❤\u200d\ufe0f'
+      ];
+      return encodeURIComponent(lines.join('\n'));
+    }
+
+    function setWAHref(){
+      const phone = (el('phone').value||'').replace(/\D/g,'');
+      const to = phone.startsWith('62')? phone : (phone.startsWith('0')? '62'+phone.slice(1): (phone? '62'+phone: '6281234567890'));
+      waBtn.href = `https://wa.me/${to}?text=${buildWAText()}`;
+    }
+
+    // Submit handler
+    el('orderForm').addEventListener('submit', e=>{
+      e.preventDefault();
+      // basic validation
+      if(!gameSel.value) return alert('Pilih game terlebih dahulu.');
+      if(gameSel.value==='ff' && !el('ffid').value) return alert('Masukkan ID Free Fire.');
+      if(gameSel.value==='ml' && (!el('mlid').value || !el('mlzone').value)) return alert('Masukkan User ID dan Zone ID Mobile Legends.');
+      if(!nominalSel.value) return alert('Pilih nominal.');
+      if(!document.querySelector('input[name="pay"]:checked')) return alert('Pilih metode pembayaran.');
+
+      setWAHref();
+      showToast('Pesanan dibuat! Kirim ke WhatsApp untuk konfirmasi.');
+    });
+
+    // Reset
+    resetBtn.addEventListener('click', ()=>{
+      document.getElementById('orderForm').reset();
+      ffFields.style.display='none';
+      mlFields.style.display='none';
+      nominalSel.innerHTML='<option value="">— Pilih nominal —</option>';
+      refreshOrderId();
+      updateSummary();
+    });
+
+    // Copy summary
+    copyBtn.addEventListener('click', async ()=>{
+      const text = [
+        'Rebeca Store — Ringkasan Pesanan',
+        sOrder.textContent,
+        `Game: ${sGame.textContent}`,
+        `ID: ${sID.textContent}`,
+        `Nominal: ${sNominal.textContent}`,
+        `Pembayaran: ${sPay.textContent}`,
+        `Total: ${sTotal.textContent}`
+      ].join('\n');
+      try{ await navigator.clipboard.writeText(text); showToast('Rincian disalin!'); }
+      catch{ showToast('Gagal menyalin'); }
+    });
+
+    // Toast helper
+    const toast = document.getElementById('toast');
+    let toastTimer;
+    function showToast(msg){
+      toast.textContent=msg; toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer=setTimeout(()=>toast.classList.remove('show'),2000);
+    }
+
+    // --- Simple QR renderer (no deps) ---
+    // Note: This draws a placeholder QR pattern (not a real payment QR). Replace with real QR from gateway when production.
+    function drawQR(canvas, seed){
+      const ctx = canvas.getContext('2d');
+      const N=25; // grid
+      const sz = canvas.width; const cell = Math.floor(sz/N);
+      // white bg
+      ctx.fillStyle = '#fff'; ctx.fillRect(0,0,sz,sz);
+      // pseudo-random pattern based on seed hash
+      let h=0; for(let i=0;i<seed.length;i++){ h=(h*31 + seed.charCodeAt(i))>>>0; }
+      for(let y=0;y<N;y++){
+        for(let x=0;x<N;x++){
+          h = (h*1664525 + 1013904223)>>>0;
+          const bit = (h>>>28)&1;
+          if(bit){ ctx.fillStyle = '#000'; ctx.fillRect(x*cell, y*cell, cell-1, cell-1); }
+        }
+      }
+      // finder squares
+      ctx.strokeStyle='#000'; ctx.lineWidth=3;
+      [[2,2],[N-5,2],[2,N-5]].forEach(([fx,fy])=>{
+        ctx.strokeRect(fx*cell,fy*cell,cell*5,cell*5);
+        ctx.fillStyle='#000'; ctx.fillRect((fx+1)*cell,(fy+1)*cell,cell*3,cell*3);
+        ctx.fillStyle='#fff'; ctx.fillRect((fx+2)*cell,(fy+2)*cell,cell*1,cell*1);
+      });
+    }
+
+    // initial summary
+    updateSummary();
+  </script></body>
+</html>
